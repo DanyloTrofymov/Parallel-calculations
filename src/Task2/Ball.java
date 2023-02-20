@@ -26,7 +26,7 @@ class Ball {
         int a = 0;
     }
     public void draw (Graphics2D g2){
-        g2.setColor(Color.darkGray);
+        g2.setColor(Color.gray);
         g2.fill(new Ellipse2D.Double(x,y,XSIZE,YSIZE));
     }
     public void move(){
