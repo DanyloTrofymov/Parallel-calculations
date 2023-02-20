@@ -1,11 +1,9 @@
-package Task1;
-
-import Task1.Ball;
+package Task2;
 
 public class BallThread extends Thread {
-    private Ball b;
+    private Task2.Ball b;
 
-    public BallThread(Ball ball) {
+    public BallThread(Task2.Ball ball) {
         b = ball;
     }
 
