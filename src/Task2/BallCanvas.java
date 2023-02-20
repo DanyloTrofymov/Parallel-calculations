@@ -26,5 +26,7 @@ public class BallCanvas extends JPanel{
         for (Hole h : holes) {
             h.draw(g2);
         }
+
+        balls.removeIf(Objects::isNull);
     }
 }
