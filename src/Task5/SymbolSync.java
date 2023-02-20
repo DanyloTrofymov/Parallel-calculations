@@ -1,4 +1,4 @@
-package Task6;
+package Task5;
 
 public class SymbolSync extends Thread{
     private char s;

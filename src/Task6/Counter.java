@@ -1,4 +1,4 @@
-package Task5;
+package Task6;
 
 public class Counter {
     private int c = 0;

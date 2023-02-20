@@ -1,4 +1,4 @@
-package Task6;
+package Task5;
 
 public class SymbolAsync extends Thread {
     private char s;
