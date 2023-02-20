@@ -29,6 +29,10 @@ public class Sync {
 
             }
         }
+        if(stop){
+            notifyAll();
+            return;
+        }
         System.out.print(s);
         permission = !permission;
         symbols++;
