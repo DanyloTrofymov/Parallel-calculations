@@ -1,6 +1,6 @@
-package Task1;
+package Task4;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class Bounce {
     public static void main(String[] args) {

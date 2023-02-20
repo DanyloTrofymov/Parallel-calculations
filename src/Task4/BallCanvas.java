@@ -1,24 +1,31 @@
-package Task1;
+package Task4;
 
-import Task1.Ball;
-
-import java.awt.Graphics2D;
-import java.awt.Graphics;
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class BallCanvas extends JPanel{
-    private ArrayList<Ball> balls = new ArrayList<>();
+    public static ArrayList<Ball> balls = new ArrayList<>();
+    public static ArrayList<Hole> holes = new ArrayList<>();
     public void add(Ball b){
-        this.balls.add(b);
+        BallCanvas.balls.add(b);
+    }
+    public void addHole(Hole h){
+        BallCanvas.holes.add(h);
     }
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
-        for(int i=0; i<balls.size();i++){
-            Ball b = balls.get(i);
-            b.draw(g2);
+        for (Ball b : balls) {
+            if (b != null)
+                b.draw(g2);
         }
+
+        for (Hole h : holes) {
+            h.draw(g2);
+        }
+        balls.removeIf(Objects::isNull);
     }
 }

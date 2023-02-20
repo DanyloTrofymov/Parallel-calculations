@@ -1,10 +1,7 @@
-package Task1;
+package Task4;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
-import java.util.Random;
 
 class Ball {
     private Component canvas;
@@ -16,13 +13,6 @@ class Ball {
     private int dy = 2;
     public Ball(Component c){
         this.canvas = c;
-        if(Math.random()<0.5){
-            x = new Random().nextInt(this.canvas.getWidth());
-            y = 0;
-        }else{
-            x = 0;
-            y = new Random().nextInt(this.canvas.getHeight());
-        }
     }
     public static void f(){
         int a = 0;
@@ -50,6 +40,27 @@ class Ball {
             y = this.canvas.getHeight()-YSIZE;
             dy = -dy;
         }
-        this.canvas.repaint();
+
+        if(isInHole()){
+            Thread.currentThread().interrupt();
+            removeBall();
+            BounceFrame.incCaughtText();
+        }
+        BounceFrame.canvas.repaint();
+    }
+    public boolean isInHole() {
+        int centerX = x + XSIZE / 2;
+        int centerY = y + YSIZE / 2;
+        for (Hole hole : BallCanvas.holes) {
+            if (hole.catched(centerX, centerY)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    public void removeBall() {
+        int id = BallCanvas.balls.indexOf(this);
+        BallCanvas.balls.set(id, null);
     }
 }
