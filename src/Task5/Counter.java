@@ -1,0 +1,40 @@
+package Task5;
+
+public class Counter {
+    private Object sync = new Object();
+    private int c = 0;
+    private boolean isSync;
+
+    public Counter(boolean isSync){
+        this.isSync = isSync;
+    }
+
+    private synchronized void syncInc(){
+        c++;
+    }
+    private synchronized void syncDec(){
+        c--;
+    }
+    private void asyncInc(){
+        c++;
+    }
+    private void asyncDec(){
+        c--;
+    }
+
+    public void increment(){
+        if(isSync)
+            syncInc();
+        else
+            asyncInc();
+    }
+    public void decrement(){
+        if(isSync)
+            syncDec();
+        else
+            asyncDec();
+    }
+    public void print(){
+        System.out.println("Counter is " + (isSync ? "sync" : "async") + ". The result is: " + c);
+    }
+}
