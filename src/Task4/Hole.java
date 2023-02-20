@@ -14,7 +14,7 @@ public class Hole {
     public Hole(Component c){
         this.canvas = c;
         x = new Random().nextInt(this.canvas.getWidth() - XSIZE);
-        y = new Random().nextInt(this.canvas.getHeight()- YSIZE);
+        y = new Random().nextInt(this.canvas.getHeight() - YSIZE);
     }
     public void draw (Graphics2D g2){
         g2.setColor(Color.black);

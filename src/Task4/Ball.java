@@ -2,6 +2,7 @@ package Task4;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.util.Random;
 
 class Ball {
     private Component canvas;
@@ -13,6 +14,13 @@ class Ball {
     private int dy = 2;
     public Ball(Component c){
         this.canvas = c;
+        if(Math.random()<0.5){
+            x = new Random().nextInt(this.canvas.getWidth() - XSIZE);
+            y = 0;
+        }else{
+            x = 0;
+            y = new Random().nextInt(this.canvas.getHeight() - YSIZE);
+        }
     }
     public static void f(){
         int a = 0;
