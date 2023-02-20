@@ -1,13 +1,17 @@
-package Task3;
+package Task1;
 
-import javax.swing.*;
-import java.awt.*;
+import Task1.Ball;
+import Task1.BallCanvas;
+import Task1.BallThread;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import static java.lang.Thread.MAX_PRIORITY;
-import static java.lang.Thread.MIN_PRIORITY;
-
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 public class BounceFrame extends JFrame {
     private BallCanvas canvas;
     public static final int WIDTH = 450;
@@ -22,20 +26,29 @@ public class BounceFrame extends JFrame {
         content.add(this.canvas, BorderLayout.CENTER);
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.lightGray);
-        JButton buttonAddRed = new JButton("Add red");
+        JButton buttonAddOne = new JButton("Add 1");
+        JButton buttonAddTen = new JButton("Add 10");
         JButton buttonAddHundred = new JButton("Add 100");
         JButton buttonStop = new JButton("Stop");
-        buttonAddRed.addActionListener(new ActionListener() {
+        buttonAddOne.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addBall(Color.red);
+                addBall();
+            }
+        });
+        buttonAddTen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for( int i = 0; i < 10; i++){
+                    addBall();
+                }
             }
         });
         buttonAddHundred.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for( int i = 0; i < 100; i++){
-                    addBall(Color.cyan);
+                    addBall();
                 }
             }
         });
@@ -45,22 +58,17 @@ public class BounceFrame extends JFrame {
                 System.exit(0);
             }
         });
-        buttonPanel.add(buttonAddRed);
+        buttonPanel.add(buttonAddOne);
+        buttonPanel.add(buttonAddTen);
         buttonPanel.add(buttonAddHundred);
         buttonPanel.add(buttonStop);
         content.add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    public void addBall(Color color){
-        Ball b = new Ball(canvas, color);
+    public void addBall(){
+        Ball b = new Ball(canvas);
         canvas.add(b);
         BallThread thread = new BallThread(b);
-        if(color.equals(Color.red)){
-            thread.setPriority(MAX_PRIORITY);
-        }
-        else {
-            thread.setPriority(MIN_PRIORITY);
-        }
         thread.start();
         System.out.println("Thread name = " +
                 thread.getName());

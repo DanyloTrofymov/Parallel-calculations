@@ -1,6 +1,8 @@
-package Task3;
+package Task1;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
@@ -9,20 +11,24 @@ class Ball {
     private static final int XSIZE = 20;
     private static final int YSIZE = 20;
     private int x = 0;
-    private int y = 0;
+    private int y= 0;
     private int dx = 2;
     private int dy = 2;
-
-    public Color color;
-    public Ball(Component c, Color color){
+    public Ball(Component c){
         this.canvas = c;
-        this.color = color;
+        if(Math.random()<0.5){
+            x = new Random().nextInt(this.canvas.getWidth());
+            y = 0;
+        }else{
+            x = 0;
+            y = new Random().nextInt(this.canvas.getHeight());
+        }
     }
     public static void f(){
         int a = 0;
     }
     public void draw (Graphics2D g2){
-        g2.setColor(color);
+        g2.setColor(Color.darkGray);
         g2.fill(new Ellipse2D.Double(x,y,XSIZE,YSIZE));
     }
     public void move(){
