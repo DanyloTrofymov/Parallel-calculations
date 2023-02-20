@@ -60,9 +60,13 @@ public class BounceFrame extends JFrame {
     public void addBall() throws InterruptedException {
             Ball b = new Ball(canvas);
             canvas.add(b);
-            if(prevThread != null)
-                prevThread.join();
-            BallThread thread = new BallThread(b);
+            BallThread thread;
+            if(prevThread == null){
+                thread = new BallThread(b, null);
+            }
+            else{
+                thread = new BallThread(b, prevThread);
+            }
             thread.start();
             prevThread = thread;
             System.out.println("Thread name = " +
