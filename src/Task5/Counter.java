@@ -1,7 +1,6 @@
 package Task5;
 
 public class Counter {
-    private Object sync = new Object();
     private int c = 0;
     private boolean isSync;
 
