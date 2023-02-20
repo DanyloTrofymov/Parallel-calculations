@@ -26,17 +26,30 @@ public class BounceFrame extends JFrame {
         content.add(this.canvas, BorderLayout.CENTER);
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.lightGray);
-        JButton buttonStart = new JButton("Start");
+        JButton buttonAddOne = new JButton("Add 1");
+        JButton buttonAddTen = new JButton("Add 10");
+        JButton buttonAddHundred = new JButton("Add 100");
         JButton buttonStop = new JButton("Stop");
-        buttonStart.addActionListener(new ActionListener() {
+        buttonAddOne.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Ball b = new Ball(canvas);
-                canvas.add(b);
-                BallThread thread = new BallThread(b);
-                thread.start();
-                System.out.println("Thread name = " +
-                        thread.getName());
+                addBall();
+            }
+        });
+        buttonAddTen.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for( int i = 0; i < 10; i++){
+                    addBall();
+                }
+            }
+        });
+        buttonAddHundred.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for( int i = 0; i < 100; i++){
+                    addBall();
+                }
             }
         });
         buttonStop.addActionListener(new ActionListener() {
@@ -45,8 +58,19 @@ public class BounceFrame extends JFrame {
                 System.exit(0);
             }
         });
-        buttonPanel.add(buttonStart);
+        buttonPanel.add(buttonAddOne);
+        buttonPanel.add(buttonAddTen);
+        buttonPanel.add(buttonAddHundred);
         buttonPanel.add(buttonStop);
         content.add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    public void addBall(){
+        Ball b = new Ball(canvas);
+        canvas.add(b);
+        BallThread thread = new BallThread(b);
+        thread.start();
+        System.out.println("Thread name = " +
+                thread.getName());
     }
 }
