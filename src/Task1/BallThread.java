@@ -3,7 +3,7 @@ package Task1;
 import Task1.Ball;
 
 public class BallThread extends Thread {
-    private Ball b;
+    private final Ball b;
 
     public BallThread(Ball ball) {
         b = ball;
@@ -19,7 +19,8 @@ public class BallThread extends Thread {
                 Thread.sleep(2);
             }
         } catch (InterruptedException ex) {
-
+            if(!ex.getMessage().equals("sleep interrupted"))
+                System.out.println(ex);
         }
     }
 }

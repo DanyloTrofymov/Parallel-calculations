@@ -26,7 +26,7 @@ public class Sync {
             try {
                 wait();
             } catch (InterruptedException ex) {
-
+                System.out.println(ex);
             }
         }
         if(stop){

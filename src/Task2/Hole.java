@@ -4,8 +4,9 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
+@SuppressWarnings("ALL")
 public class Hole {
-    private Component canvas;
+    private final Component canvas;
     public final int XSIZE = 25;
     public final int YSIZE = 25;
     public int x = 0;

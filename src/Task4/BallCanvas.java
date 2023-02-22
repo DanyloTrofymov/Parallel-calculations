@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class BallCanvas extends JPanel{
-    public static ArrayList<Ball> balls = new ArrayList<>();
-    public static ArrayList<Hole> holes = new ArrayList<>();
+    public static final ArrayList<Ball> balls = new ArrayList<>();
+    public static final ArrayList<Hole> holes = new ArrayList<>();
     public void add(Ball b){
         BallCanvas.balls.add(b);
     }

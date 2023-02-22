@@ -8,25 +8,17 @@ public class Main {
         Thread[] threads = new Thread[threadNum];
         for(int i = 0; i < threadNum; i++){
             if(i%2 == 0) {
-                threads[i] = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
+                threads[i] = new Thread(() -> {
                         for (int j = 0; j < countOfCalcs; j++) {
                             counter.increment();
                         }
-
-                    }
                 });
             }
             else {
-                threads[i] = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
+                threads[i] = new Thread(() -> {
                         for (int j = 0; j < countOfCalcs; j++) {
                             counter.decrement();
                         }
-
-                    }
                 });
             }
         }

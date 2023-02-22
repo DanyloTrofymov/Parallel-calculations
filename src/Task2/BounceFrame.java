@@ -2,8 +2,7 @@ package Task2;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 public class BounceFrame extends JFrame {
     static BallCanvas canvas;
     public static final int WIDTH = 600;
@@ -20,7 +19,7 @@ public class BounceFrame extends JFrame {
                 + Thread.currentThread().getName());
 
         Container content = this.getContentPane();
-        content.add(this.canvas, BorderLayout.CENTER);
+        content.add(canvas, BorderLayout.CENTER);
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.lightGray);
         JButton buttonAddHole = new JButton("Add hole");
@@ -28,41 +27,26 @@ public class BounceFrame extends JFrame {
         JButton buttonAddTen = new JButton("Add 10");
         JButton buttonAddHundred = new JButton("Add 100");
         JButton buttonStop = new JButton("Stop");
-        buttonAddHole.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        buttonAddHole.addActionListener(e -> {
                 Task2.Hole h = new Task2.Hole(canvas);
                 canvas.addHole(h);
                 canvas.repaint();
-            }
         });
-        buttonAddOne.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        buttonAddOne.addActionListener(e -> {
                 addBall();
-            }
         });
-        buttonAddTen.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        buttonAddTen.addActionListener(e -> {
                 for( int i = 0; i < 10; i++){
                     addBall();
                 }
-            }
         });
-        buttonAddHundred.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for( int i = 0; i < 100; i++){
+        buttonAddHundred.addActionListener(e -> {
+                for( int i = 0; i < 100; i++) {
                     addBall();
                 }
-            }
         });
-        buttonStop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        buttonStop.addActionListener(e -> {
                 System.exit(0);
-            }
         });
         buttonPanel.add(buttonAddHole);
         buttonPanel.add(buttonAddOne);

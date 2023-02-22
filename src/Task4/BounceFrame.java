@@ -2,8 +2,7 @@ package Task4;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 public class BounceFrame extends JFrame {
     static BallCanvas canvas;
     public static final int WIDTH = 600;
@@ -20,36 +19,23 @@ public class BounceFrame extends JFrame {
                 + Thread.currentThread().getName());
 
         Container content = this.getContentPane();
-        content.add(this.canvas, BorderLayout.CENTER);
+        content.add(canvas, BorderLayout.CENTER);
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(Color.lightGray);
         JButton buttonAddHole = new JButton("Add hole");
         JButton buttonAddOne = new JButton("Add 1");
         JButton buttonStop = new JButton("Stop");
-        buttonAddHole.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        buttonAddHole.addActionListener(e -> {
                 Hole h = new Hole(canvas);
                 canvas.addHole(h);
                 canvas.repaint();
-            }
         });
-        buttonAddOne.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    addBall();
-                } catch (InterruptedException ex) {
-
-                }
-            }
+        buttonAddOne.addActionListener(e -> {
+                addBall();
         });
 
-        buttonStop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        buttonStop.addActionListener(e -> {
                 System.exit(0);
-            }
         });
         buttonPanel.add(buttonAddHole);
         buttonPanel.add(buttonAddOne);
@@ -57,7 +43,7 @@ public class BounceFrame extends JFrame {
         buttonPanel.add(caughtText);
         content.add(buttonPanel, BorderLayout.SOUTH);
     }
-    public void addBall() throws InterruptedException {
+    public void addBall() {
             Ball b = new Ball(canvas);
             canvas.add(b);
             BallThread thread;

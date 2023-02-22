@@ -2,14 +2,11 @@ package Task3;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import static java.lang.Thread.MAX_PRIORITY;
 import static java.lang.Thread.MIN_PRIORITY;
 
 public class BounceFrame extends JFrame {
-    private BallCanvas canvas;
+    private final BallCanvas canvas;
     public static final int WIDTH = 450;
     public static final int HEIGHT = 350;
     public BounceFrame() {
@@ -25,25 +22,16 @@ public class BounceFrame extends JFrame {
         JButton buttonAddRed = new JButton("Add red");
         JButton buttonAddHundred = new JButton("Add 100");
         JButton buttonStop = new JButton("Stop");
-        buttonAddRed.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        buttonAddRed.addActionListener(e -> {
                 addBall(Color.red);
-            }
         });
-        buttonAddHundred.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for( int i = 0; i < 100; i++){
+        buttonAddHundred.addActionListener(e -> {
+                for( int i = 0; i < 100; i++) {
                     addBall(Color.cyan);
                 }
-            }
         });
-        buttonStop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        buttonStop.addActionListener(e -> {
                 System.exit(0);
-            }
         });
         buttonPanel.add(buttonAddRed);
         buttonPanel.add(buttonAddHundred);

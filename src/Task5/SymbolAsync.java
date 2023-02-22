@@ -1,7 +1,7 @@
 package Task5;
 
 public class SymbolAsync extends Thread {
-    private char s;
+    private final char s;
     public SymbolAsync(char symbol){
         s=symbol;
     }

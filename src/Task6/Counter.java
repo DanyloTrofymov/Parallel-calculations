@@ -2,7 +2,7 @@ package Task6;
 
 public class Counter {
     private int c = 0;
-    private boolean isSync;
+    private final boolean isSync;
 
     public Counter(boolean isSync){
         this.isSync = isSync;

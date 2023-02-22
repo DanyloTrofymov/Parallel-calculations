@@ -2,10 +2,9 @@ package Task3;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
-import java.util.Random;
 
 class Ball {
-    private Component canvas;
+    private final Component canvas;
     private static final int XSIZE = 20;
     private static final int YSIZE = 20;
     private int x = 0;
@@ -13,13 +12,10 @@ class Ball {
     private int dx = 2;
     private int dy = 2;
 
-    public Color color;
+    public final Color color;
     public Ball(Component c, Color color){
         this.canvas = c;
         this.color = color;
-    }
-    public static void f(){
-        int a = 0;
     }
     public void draw (Graphics2D g2){
         g2.setColor(color);

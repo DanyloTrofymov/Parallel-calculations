@@ -1,19 +1,14 @@
 package Task1;
 
-import Task1.Ball;
-import Task1.BallCanvas;
-import Task1.BallThread;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 public class BounceFrame extends JFrame {
-    private BallCanvas canvas;
+    private final BallCanvas canvas;
     public static final int WIDTH = 450;
     public static final int HEIGHT = 350;
     public BounceFrame() {
@@ -30,33 +25,21 @@ public class BounceFrame extends JFrame {
         JButton buttonAddTen = new JButton("Add 10");
         JButton buttonAddHundred = new JButton("Add 100");
         JButton buttonStop = new JButton("Stop");
-        buttonAddOne.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        buttonAddOne.addActionListener( e -> {
                 addBall();
-            }
         });
-        buttonAddTen.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        buttonAddTen.addActionListener(e -> {
                 for( int i = 0; i < 10; i++){
                     addBall();
-                }
             }
         });
-        buttonAddHundred.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        buttonAddHundred.addActionListener(e -> {
                 for( int i = 0; i < 100; i++){
                     addBall();
                 }
-            }
         });
-        buttonStop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        buttonStop.addActionListener(e -> {
                 System.exit(0);
-            }
         });
         buttonPanel.add(buttonAddOne);
         buttonPanel.add(buttonAddTen);

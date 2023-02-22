@@ -1,9 +1,9 @@
 package Task5;
 
 public class SymbolSync extends Thread{
-    private char s;
-    private Sync sync;
-    private boolean controlValue;
+    private final char s;
+    private final Sync sync;
+    private final boolean controlValue;
     public SymbolSync(char symbol, Sync permission, boolean control){
         s = symbol;
         sync = permission;

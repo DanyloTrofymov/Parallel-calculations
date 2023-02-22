@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class BallCanvas extends JPanel{
-    public static ArrayList<Task2.Ball> balls = new ArrayList<>();
-    public static ArrayList<Task2.Hole> holes = new ArrayList<>();
-    public void add(Task2.Ball b){
+    public static final ArrayList<Ball> balls = new ArrayList<>();
+    public static final ArrayList<Hole> holes = new ArrayList<>();
+    public void add(Ball b){
         BallCanvas.balls.add(b);
     }
-    public void addHole(Task2.Hole h){
+    public void addHole(Hole h){
         BallCanvas.holes.add(h);
     }
     @Override
