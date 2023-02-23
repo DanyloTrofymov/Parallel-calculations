@@ -7,8 +7,10 @@ public class BounceFrame extends JFrame {
     static BallCanvas canvas;
     public static final int WIDTH = 600;
     public static final int HEIGHT = 450;
-
     private static int caught = 0;
+    public static synchronized void increment() {
+        caught++;
+    }
     private static final JLabel caughtText = new JLabel("Caught balls: 0");
     public BounceFrame() {
         this.setSize(WIDTH, HEIGHT);
@@ -66,7 +68,7 @@ public class BounceFrame extends JFrame {
     }
 
     public static void incCaughtText() {
-        BounceFrame.caught += 1;
+        increment();
         caughtText.setText("Caught balls: " + caught);
     }
 }

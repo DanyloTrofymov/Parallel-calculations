@@ -8,6 +8,8 @@ class Ball {
     private final Component canvas;
     private static final int XSIZE = 20;
     private static final int YSIZE = 20;
+
+    public Color color;
     private int x = 0;
     private int y= 0;
     private int dx = 2;
@@ -21,9 +23,10 @@ class Ball {
             x = 0;
             y = new Random().nextInt(this.canvas.getHeight() - YSIZE);
         }
+        color = Color.gray;
     }
     public void draw (Graphics2D g2){
-        g2.setColor(Color.gray);
+        g2.setColor(color);
         g2.fill(new Ellipse2D.Double(x,y,XSIZE,YSIZE));
     }
     public void move(){
