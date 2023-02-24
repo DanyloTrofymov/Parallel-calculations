@@ -2,7 +2,7 @@ package Task5;
 
 public class Main {
     public static void main(String[] args) {
-        boolean isSync = true;
+        boolean isSync = false;
         Thread first;
         Thread second;
         if(isSync) {

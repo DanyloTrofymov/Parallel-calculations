@@ -16,7 +16,6 @@ public class SymbolSync extends Thread{
             sync.waitAndChange(controlValue, s);
             if(sync.isStop())
                 return;
-
         }
     }
 }
