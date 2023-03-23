@@ -1,9 +1,15 @@
 package mathThreads.threads;
 
-public class StripedMultiplierThread extends MultiplierThread {
-
+public class StripedMultiplierThread extends Thread{
+    private int[][] matrixA;
+    private int[][] matrixB;
+    private int[][] result;
+    private int row;
     public StripedMultiplierThread(int[][] result, int[][] matrixA, int[][] matrixB, int row) {
-        super(result, matrixA, matrixB, row);
+        this.result = result;
+        this.matrixA = matrixA;
+        this.matrixB = matrixB;
+        this.row = row;
     }
 
     @Override
