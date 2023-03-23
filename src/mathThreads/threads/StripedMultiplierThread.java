@@ -1,8 +1,8 @@
-package math;
+package mathThreads.threads;
 
-public class StripedMultiplier extends Multiplier{
+public class StripedMultiplierThread extends MultiplierThread {
 
-    public StripedMultiplier(int[][] result, int[][] matrixA, int[][] matrixB, int row) {
+    public StripedMultiplierThread(int[][] result, int[][] matrixA, int[][] matrixB, int row) {
         super(result, matrixA, matrixB, row);
     }
 
@@ -12,7 +12,7 @@ public class StripedMultiplier extends Multiplier{
         int matrixBCols = matrixB[0].length;
         for (int i = 0; i < matrixBCols; i++) {
             for (int j = 0; j < matrixACols; j++) {
-                result[row][j] += matrixA[row][i] * matrixB[j][i];
+                result[row][i] += matrixA[row][j] * matrixB[j][i];
             }
         }
     }
