@@ -8,8 +8,10 @@ public class BlockStripedMultiplier extends Multiplier{
 
     @Override
     public void run() {
-        for (int i = 0; i < matrixB[0].length; i++) {
-            for (int j = 0; j < matrixA[0].length; j++) {
+        int matrixACols = matrixA[0].length;
+        int matrixBCols = matrixB[0].length;
+        for (int i = 0; i < matrixBCols; i++) {
+            for (int j = 0; j < matrixACols; j++) {
                 result[row][j] += matrixA[row][i] * matrixB[j][i];
             }
         }

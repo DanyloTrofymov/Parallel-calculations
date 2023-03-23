@@ -13,4 +13,16 @@ public abstract class Multiplier extends Thread {
         this.matrixB = matrixB;
         this.row = row;
     }
+    public abstract void run();
+
+    public int[][] getResult() {
+        return result;
+    }
+
+    public void setMatrixA(int[][] matrixA) {
+        this.matrixA = matrixA;
+    }
+    public void setMatrixB(int[][] matrixB) {
+        this.matrixB = matrixB;
+    }
 }
