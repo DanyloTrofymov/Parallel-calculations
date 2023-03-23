@@ -1,8 +1,10 @@
-import utils.Generator;
-import utils.MatrixType;
+import math.StripedMultiplier;
+import utils.Reader;
 
 public class Main {
     public static void main(String[] args) {
-        Generator.generateMatrix(100,100, MatrixType.SCALAR, 5, "scalar.txt");
+        StripedMultiplier BSM = new StripedMultiplier(
+                Reader.readMatrix()
+        );
     }
 }

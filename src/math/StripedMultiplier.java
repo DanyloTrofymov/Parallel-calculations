@@ -1,8 +1,8 @@
 package math;
 
-public class BlockStripedMultiplier extends Multiplier{
+public class StripedMultiplier extends Multiplier{
 
-    public BlockStripedMultiplier(int[][] result, int[][] matrixA, int[][] matrixB, int row) {
+    public StripedMultiplier(int[][] result, int[][] matrixA, int[][] matrixB, int row) {
         super(result, matrixA, matrixB, row);
     }
 

@@ -4,24 +4,15 @@ import java.io.File;
 import java.io.FileWriter;
 
 public class Result {
-    private int[][] matrix;
-    private long time;
+    private final int[][] matrix;
+    private final long time;
 
     public Result(int[][] matrix, long time) {
         this.matrix = matrix;
         this.time = time;
     }
 
-    public int[][] getMatrix() {
-        return matrix;
-    }
-
-    public long getTime() {
-        return time;
-    }
-
     public void writeResult() {
-        int rows = matrix.length;
         int columns = matrix[0].length;
         try {
             File file = new File("result.txt");
@@ -37,4 +28,8 @@ public class Result {
             System.out.println("Error: " + e);
         }
     }
+    public void printTime() {
+        System.out.println("Time: " + time + " ms");
+    }
+
 }
