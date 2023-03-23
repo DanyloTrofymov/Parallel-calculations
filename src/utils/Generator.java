@@ -7,8 +7,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Generator {
     static File file;
     static FileWriter fileWriter;
-    static int MAX_RANDOM_NUM = 50;
-    static int MIN_RANDOM_NUM = -50;
+    static int MAX_RANDOM_NUM = 500;
+    static int MIN_RANDOM_NUM = -500;
     public static void generateMatrix(int rows, int columns, MatrixType matrixType, int scalar, String fileName) {
         try {
             file = new File(fileName);

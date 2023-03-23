@@ -6,9 +6,12 @@ import utils.Result;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Multiplier {
-    public static Result stripedMultiply(int[][] matrixA, int[][] matrixB) {
+    public static Result stripedMultiply(int[][] matrixA, int[][] matrixB, int threadsCount){
         int matrixARows = matrixA.length;
         int matrixACols = matrixA[0].length;
         int matrixBRows = matrixA.length;
@@ -20,24 +23,24 @@ public class Multiplier {
         int[][] result = new int[matrixARows][matrixBCols];
 
         long startTime = System.currentTimeMillis();
-        List<StripedMultiplierThread> threads = new ArrayList<>();
+        ExecutorService executor = Executors.newFixedThreadPool(threadsCount);
+        List<Callable<Object>> todo = new ArrayList<>(matrixARows);
         for (int i = 0; i < matrixARows; i++) {
             StripedMultiplierThread thread = new StripedMultiplierThread(result, matrixA, matrixB, i);
-            threads.add(thread);
-            thread.start();
+            todo.add(Executors.callable(thread));
         }
-        for (StripedMultiplierThread thread : threads) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        try {
+            executor.invokeAll(todo);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+
+        executor.shutdown();
         long finishTime = System.currentTimeMillis();
         return new Result(result, finishTime - startTime);
     }
 
-    public static Result foxMultiply(int[][] matrixA, int[][] matrixB, int blockSize){
+    public static Result foxMultiply(int[][] matrixA, int[][] matrixB, int blockSize, int threadsCount){
         int matrixARows = matrixA.length;
         int matrixACols = matrixA[0].length;
         int matrixBRows = matrixB.length;
@@ -62,22 +65,21 @@ public class Multiplier {
         int[][][][] blocksB = getBlocks(matrixB, blockSize);
         int[][][][] blocksResult = getBlocks(result, blockSize);
 
-        List<FoxMultiplierThread> threads = new ArrayList<>();
+        ExecutorService executor = Executors.newFixedThreadPool(threadsCount);
+        List<Callable<Object>> todo = new ArrayList<>(matrixARows);
         int blocksCount = matrixARows / blockSize;
         for (int i = 0; i < blocksCount; i++) {
-            final int row = i;
-            FoxMultiplierThread thread = new FoxMultiplierThread(blocksResult, blocksA, blocksB, row, blockSize);
+            FoxMultiplierThread thread = new FoxMultiplierThread(blocksResult, blocksA, blocksB, i, blockSize);
+            todo.add(Executors.callable(thread));
+        }
 
-            threads.add(thread);
-            thread.start();
+        try {
+            executor.invokeAll(todo);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
-        for (FoxMultiplierThread thread : threads) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+
+        executor.shutdown();
 
         convertToArray(blocksResult, result);
 
