@@ -14,7 +14,7 @@ public class Multiplier {
     public static Result stripedMultiply(int[][] matrixA, int[][] matrixB, int threadsCount){
         int matrixARows = matrixA.length;
         int matrixACols = matrixA[0].length;
-        int matrixBRows = matrixA.length;
+        int matrixBRows = matrixB.length;
         int matrixBCols = matrixB[0].length;
 
         if (matrixACols != matrixBRows)
