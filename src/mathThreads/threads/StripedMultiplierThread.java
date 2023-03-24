@@ -1,25 +1,25 @@
 package mathThreads.threads;
 
 public class StripedMultiplierThread extends Thread{
-    private int[][] matrixA;
-    private int[][] matrixB;
+    private int[] rowA;
+    private int[] rowB;
+    private int i;
+    private int j;
     private int[][] result;
     private int row;
-    public StripedMultiplierThread(int[][] result, int[][] matrixA, int[][] matrixB, int row) {
+    public StripedMultiplierThread(int[][] result, int[] rowA, int[] rowB, int i, int j) {
         this.result = result;
-        this.matrixA = matrixA;
-        this.matrixB = matrixB;
-        this.row = row;
+        this.rowA = rowA;
+        this.rowB = rowB;
+        this.i = i;
+        this.j = j;
     }
 
     @Override
     public void run() {
-        int matrixACols = matrixA[0].length;
-        int matrixBCols = matrixB[0].length;
-        for (int i = 0; i < matrixBCols; i++) {
-            for (int j = 0; j < matrixACols; j++) {
-                result[row][i] += matrixA[row][j] * matrixB[j][i];
-            }
+        int matrixACols = rowA.length;
+        for (int k = 0; k < matrixACols; k++) {
+            result[i][j] += rowA[k] * rowB[k];
         }
     }
 }

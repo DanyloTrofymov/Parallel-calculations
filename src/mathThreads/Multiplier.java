@@ -21,13 +21,16 @@ public class Multiplier {
             throw new IllegalArgumentException("Matrix A's column count must match matrix B's row count.");
 
         int[][] result = new int[matrixARows][matrixBCols];
+        int[][] transposedMatrixB = transpose(matrixB);
 
         long startTime = System.currentTimeMillis();
         ExecutorService executor = Executors.newFixedThreadPool(threadsCount);
         List<Callable<Object>> todo = new ArrayList<>(matrixARows);
         for (int i = 0; i < matrixARows; i++) {
-            StripedMultiplierThread thread = new StripedMultiplierThread(result, matrixA, matrixB, i);
-            todo.add(Executors.callable(thread));
+            for (int j = 0; j < matrixBCols; j++) {
+                StripedMultiplierThread thread = new StripedMultiplierThread(result, matrixA[i], transposedMatrixB[j], i, j);
+                todo.add(Executors.callable(thread));
+            }
         }
         try {
             executor.invokeAll(todo);
@@ -38,6 +41,18 @@ public class Multiplier {
         executor.shutdown();
         long finishTime = System.currentTimeMillis();
         return new Result(result, finishTime - startTime);
+    }
+
+    private static int[][] transpose(int[][] matrix){
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+        int[][] result = new int[cols][rows];
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                result[j][i] = matrix[i][j];
+            }
+        }
+        return result;
     }
 
     public static Result foxMultiply(int[][] matrixA, int[][] matrixB, int blockSize, int threadsCount){
