@@ -14,19 +14,16 @@ public class Main {
     private static final int STUDENTS = 30;
 
     public static void main(String[] args) {
-        Group[] groups = new Group[GROUPS];
-        for (int i = 0; i < GROUPS; i++) {
-            Student[] students = new Student[STUDENTS];
-            for (int j = 0; j < STUDENTS; j++) {
-                students[j] = new Student("Student", String.valueOf(j), j);
-            }
-            groups[i] = new Group("Group " + i, students);
+        Student[] students = new Student[STUDENTS];
+        for (int j = 0; j < STUDENTS; j++) {
+            students[j] = new Student("Student", String.valueOf(j), j);
         }
-        GradeJournal gradeJournal = new GradeJournal(groups, WEEKS, ASSISTANTS + LECTURERS);
-        AbstractTeacher lecturer1 = new Lecturer("Lecturer", "1", groups, gradeJournal);
-        AbstractTeacher assistant1 = new Assistant("Assistant", "1", groups, gradeJournal);
-        AbstractTeacher assistant2 = new Assistant("Assistant", "2", groups, gradeJournal);
-        AbstractTeacher assistant3 = new Assistant("Assistant", "3", groups, gradeJournal);
+        Group group = new Group("Group 1", students);
+        GradeJournal gradeJournal = new GradeJournal(group, WEEKS, ASSISTANTS + LECTURERS);
+        AbstractTeacher lecturer1 = new Lecturer("Lecturer", "0", gradeJournal);
+        AbstractTeacher assistant1 = new Assistant("Assistant", "1", gradeJournal);
+        AbstractTeacher assistant2 = new Assistant("Assistant", "2", gradeJournal);
+        AbstractTeacher assistant3 = new Assistant("Assistant", "3", gradeJournal);
 
         lecturer1.start();
         assistant1.start();

@@ -6,7 +6,7 @@ import Task_3.Group;
 import java.util.List;
 
 public class Assistant extends AbstractTeacher {
-    public Assistant(String name, String surname, Group[] groups, GradeJournal gradeJournal) {
-        super(name, surname, groups, gradeJournal);
+    public Assistant(String name, String surname, GradeJournal gradeJournal) {
+        super(name, surname, gradeJournal);
     }
 }

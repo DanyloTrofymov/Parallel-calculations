@@ -12,18 +12,16 @@ public abstract class AbstractTeacher extends Thread{
     private static int nextId = 0;
     private int id;
     private String surname;
-    private Group[] groups;
     private GradeJournal gradeJournal;
     private int week;
 
     private static final int MAX_GRADE = 100;
 
-    public AbstractTeacher(String name, String surname, Group[] groups, GradeJournal gradeJournal) {
+    public AbstractTeacher(String name, String surname, GradeJournal gradeJournal) {
         this.name = name;
         this.surname = surname;
         this.gradeJournal = gradeJournal;
         this.id = nextId++;
-        this.groups = groups;
         week = 1;
     }
 
@@ -38,7 +36,7 @@ public abstract class AbstractTeacher extends Thread{
             System.out.println(name + " "  + surname + " has graded week " + week);
             week++;
             try {
-                Thread.sleep(500);
+                Thread.sleep(0);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

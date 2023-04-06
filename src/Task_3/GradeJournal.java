@@ -6,11 +6,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class GradeJournal {
     private int[][][] grades;
-    private Group[] groups;
+    private Group group;
     private final ReentrantLock lock = new ReentrantLock();
 
-    public GradeJournal(Group[] groups, int weeks, int teachersCount) {
-        this.groups = groups;
+    public GradeJournal(Group group, int weeks, int teachersCount) {
+        this.group = group;
         grades = new int[studentsCount()][weeks][teachersCount];
     }
 
@@ -27,10 +27,7 @@ public class GradeJournal {
     }
 
     public int studentsCount(){
-        int students = 0;
-        for (Group group : groups) {
-            students += group.getStudents().length;
-        }
+        int students = group.getStudents().length;
         return students;
     }
     public void printGrades() {
