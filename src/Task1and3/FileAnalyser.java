@@ -36,13 +36,10 @@ public class FileAnalyser extends RecursiveAction {
                     String line;
                     Set<String> setWords = new HashSet<>();
                     while ((line = reader.readLine()) != null) {
-                        List<String> filteredWords = getWords(line);
+                        List<String> words = getWords(line);
 
-                        for (String word : filteredWords) {
-                            int length = word.length();
-                                processWordLength(length);
-                        }
-                        setWords.addAll(filteredWords);
+                        processWordLength(words);
+                        setWords.addAll(words);
                     }
                     processCommonWords(setWords);
                 } catch (IOException e) {
@@ -75,11 +72,14 @@ public class FileAnalyser extends RecursiveAction {
             commonWords.retainAll(words);
         }
     }
-    private void processWordLength(int length) {
-        if (wordLengths.containsKey(length)) {
-            wordLengths.put(length, wordLengths.get(length) + 1);
-        } else {
-            wordLengths.put(length, 1);
+    private void processWordLength(List<String> words) {
+        for (String word : words) {
+            int length = word.length();
+            if (wordLengths.containsKey(length)) {
+                wordLengths.put(length, wordLengths.get(length) + 1);
+            } else {
+                wordLengths.put(length, 1);
+            }
         }
     }
     public double getAverageWordLength() {
