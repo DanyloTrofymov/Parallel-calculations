@@ -35,7 +35,7 @@ public class FileAnalyser extends RecursiveAction {
                 subTasks.add(subTask);
                 subTask.fork();
             } else {
-                System.out.println("Analyzing file: " + file.getAbsolutePath());
+                //System.out.println("Analyzing file: " + file.getAbsolutePath());
                 try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                     String line;
                     Set<String> setWords = new HashSet<>();
@@ -48,7 +48,7 @@ public class FileAnalyser extends RecursiveAction {
 
                     processCommonWords(setWords);
 
-                    if(!keywords.isEmpty()){
+                    if(!keywords.isEmpty()) {
                         processKeywords(setWords, file);
                     }
                 } catch (IOException e) {

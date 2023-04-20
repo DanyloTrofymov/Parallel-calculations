@@ -14,8 +14,12 @@ public class Main {
         List<String> keywords = new ArrayList<>(Arrays.asList(
                 "programming", "software", "hardware", "networking", "database", "encryption", "cybersecurity",
                 "artificial", "intelligence", "virtual", "blockchain", "interface"));
+        long startTime = System.currentTimeMillis();
         FileAnalyser task = new FileAnalyser(directory, keywords);
         pool.invoke(task);
+        long endTime = System.currentTimeMillis();
+
+        System.out.println("Time: " + (endTime - startTime) + " ms");
         System.out.println("Average word length is: " + task.getAverageWordLength());
         System.out.println("Word length are: " + task.getWordLengths());
         System.out.println("Common words are: " + task.getCommonWords());
