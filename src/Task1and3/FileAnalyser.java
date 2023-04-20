@@ -9,11 +9,15 @@ import java.util.concurrent.RecursiveAction;
 
 public class FileAnalyser extends RecursiveAction {
     private final File directory;
-    private Map<Integer, Integer> wordLengths = new HashMap<>();
-    private Set<String> commonWords = new HashSet<>();
+    private static Map<Integer, Integer> wordLengths = new HashMap<>();
+    private static Set<String> commonWords = new HashSet<>();
+    private List<String> keywords;
+    private static Set<String> documentsWithKeywords = new HashSet<>();
 
-    public FileAnalyser(File directory) {
+    public FileAnalyser(File directory, List<String> keywords) {
         this.directory = directory;
+        keywords.replaceAll(String::toLowerCase);
+        this.keywords = keywords;
     }
 
     @Override
@@ -27,7 +31,7 @@ public class FileAnalyser extends RecursiveAction {
 
         for (File file : files) {
             if (file.isDirectory()) {
-                FileAnalyser subTask = new FileAnalyser(file);
+                FileAnalyser subTask = new FileAnalyser(file, keywords);
                 subTasks.add(subTask);
                 subTask.fork();
             } else {
@@ -41,7 +45,12 @@ public class FileAnalyser extends RecursiveAction {
                         processWordLength(words);
                         setWords.addAll(words);
                     }
+
                     processCommonWords(setWords);
+
+                    if(!keywords.isEmpty()){
+                        processKeywords(setWords, file);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -62,6 +71,14 @@ public class FileAnalyser extends RecursiveAction {
             }
         }
         return filteredWords;
+    }
+
+    private void processKeywords(Set<String> setWords, File file){
+        setWords.retainAll(keywords);
+        if(!setWords.isEmpty()){
+            documentsWithKeywords.add(file.getPath());
+            //System.out.println(setWords + " " + file.getPath());
+        }
     }
     private void processCommonWords(Set<String> words) {
         words.removeIf(word -> !word.matches("\\p{L}+"));
@@ -100,5 +117,8 @@ public class FileAnalyser extends RecursiveAction {
     }
     public Set<String> getCommonWords() {
         return commonWords;
+    }
+    public Set<String> getDocumentsWithKeywords(){
+        return documentsWithKeywords;
     }
 }
