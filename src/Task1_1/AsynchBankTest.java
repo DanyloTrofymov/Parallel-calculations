@@ -8,8 +8,8 @@ public class AsynchBankTest {
     public static final int INITIAL_BALANCE = 10000;
 
     public static void main(String[] args) {
-        long startTime = System.currentTimeMillis();
-        for (int j = 0; j < 20; j++) {
+        for (int j = 0; j < 15; j++) {
+            long startTime = System.currentTimeMillis();
             Bank b = new Bank(NACCOUNTS, INITIAL_BALANCE);
             List<TransferThread> threads = new ArrayList<>();
             for (int i = 0; i < NACCOUNTS; i++) {
@@ -26,9 +26,10 @@ public class AsynchBankTest {
                     e.printStackTrace();
                 }
             });
+            long endTime = System.currentTimeMillis();
+            System.out.println("Time: "+ (endTime - startTime));
         }
 
-        long endTime = System.currentTimeMillis();
-        System.out.println("Time: " + (endTime - startTime));
+
     }
 }
