@@ -1,4 +1,4 @@
-package Task1;
+package Task1and3;
 
 import java.io.File;
 import java.util.concurrent.ForkJoinPool;

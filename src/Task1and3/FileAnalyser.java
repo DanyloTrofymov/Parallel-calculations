@@ -1,4 +1,4 @@
-package Task1;
+package Task1and3;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,6 +11,7 @@ public class FileAnalyser extends RecursiveAction {
     private final File directory;
     private Map<Integer, Integer> wordLengths = new HashMap<>();
     private Set<String> commonWords = new HashSet<>();
+
     public FileAnalyser(File directory) {
         this.directory = directory;
     }
@@ -35,21 +36,13 @@ public class FileAnalyser extends RecursiveAction {
                     String line;
                     Set<String> setWords = new HashSet<>();
                     while ((line = reader.readLine()) != null) {
-                        String[] words = line.split("\\s+");
-                        List<String> filteredWords = new ArrayList<>();
-                        for (String word : words) {
-                            if (word.matches("\\p{L}+")) {
-                                filteredWords.add(word.toLowerCase());
-                            }
-                        }
+                        List<String> filteredWords = getWords(line);
 
                         for (String word : filteredWords) {
                             int length = word.length();
-                            if(length !=0) {
                                 processWordLength(length);
-                                setWords.addAll(filteredWords);
-                            }
                         }
+                        setWords.addAll(filteredWords);
                     }
                     processCommonWords(setWords);
                 } catch (IOException e) {
@@ -61,6 +54,17 @@ public class FileAnalyser extends RecursiveAction {
         for (FileAnalyser subTask : subTasks) {
             subTask.join();
         }
+    }
+
+    private List<String> getWords(String line){
+        String[] words = line.split("\\s+");
+        List<String> filteredWords = new ArrayList<>();
+        for (String word : words) {
+            if (word.matches("\\p{L}+")) {
+                filteredWords.add(word.toLowerCase());
+            }
+        }
+        return filteredWords;
     }
     private void processCommonWords(Set<String> words) {
         words.removeIf(word -> !word.matches("\\p{L}+"));
