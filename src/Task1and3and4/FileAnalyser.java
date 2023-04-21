@@ -13,6 +13,8 @@ public class FileAnalyser extends RecursiveAction {
     private static Set<String> commonWords = new HashSet<>();
     private List<String> keywords;
     private static Set<String> documentsWithKeywords = new HashSet<>();
+    int wordLengthSum;
+    int wordCount;
 
     public FileAnalyser(File directory, List<String> keywords) {
         this.directory = directory;
@@ -35,7 +37,7 @@ public class FileAnalyser extends RecursiveAction {
                 subTasks.add(subTask);
                 subTask.fork();
             } else {
-                //System.out.println("Analyzing file: " + file.getAbsolutePath());
+                System.out.println("Analyzing file: " + file.getAbsolutePath());
                 try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                     String line;
                     Set<String> setWords = new HashSet<>();
@@ -60,6 +62,8 @@ public class FileAnalyser extends RecursiveAction {
         for (FileAnalyser subTask : subTasks) {
             subTask.join();
         }
+        setWordCount();
+        setWordLengthSum();
     }
 
     private List<String> getWords(String line){
@@ -99,17 +103,45 @@ public class FileAnalyser extends RecursiveAction {
             }
         }
     }
-    public double getAverageWordLength() {
-        int sum = 0;
+
+    private void setWordCount(){
         int count = 0;
         for (Map.Entry<Integer, Integer> entry : wordLengths.entrySet()) {
-            sum += entry.getKey() * entry.getValue();
             count += entry.getValue();
         }
-        System.out.println("sum = " + sum);
-        System.out.println("count = " + count);
-        double average = (double) sum / count;
+        this.wordCount = count;
+    }
+
+    private void setWordLengthSum(){
+        int sum = 0;
+        for (Map.Entry<Integer, Integer> entry : wordLengths.entrySet()) {
+            sum += entry.getKey() * entry.getValue();
+        }
+        this.wordLengthSum = sum;
+    }
+    public double getAverageWordLength() {
+        double average = (double) wordLengthSum / wordCount;
         return Math.round(average * Math.pow(10, 3)) / Math.pow(10, 3);
+    }
+
+    public double getDispersion() {
+        double average = getAverageWordLength();
+        double sumOfSquaredDeviations = 0;
+        for (Map.Entry<Integer, Integer> entry : wordLengths.entrySet()) {
+            sumOfSquaredDeviations += Math.pow(entry.getKey() - average, 2) * entry.getValue();
+        }
+        return Math.round(sumOfSquaredDeviations / wordCount * Math.pow(10, 3)) / Math.pow(10, 3);
+    }
+
+    public double getStandardDeviation() {
+        double dispersion = getDispersion();
+        return Math.round(Math.sqrt(dispersion) * Math.pow(10, 3)) / Math.pow(10, 3);
+    }
+    public int getWordLengthSum() {
+        return wordLengthSum;
+    }
+    public int getWordCount() {
+        return wordCount;
     }
 
     public Map<Integer, Integer> getWordLengths() {

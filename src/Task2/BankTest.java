@@ -7,7 +7,7 @@ public class BankTest {
     public static final int INITIAL_BALANCE = 10000;
     public static void main(String[] args) {
 
-        for (int j = 0; j < 15; j++) {
+        //for (int j = 0; j < 15; j++) {
             ForkJoinPool pool = new ForkJoinPool();
             Bank b = new Bank(NACCOUNTS, INITIAL_BALANCE);
             long startTime = System.currentTimeMillis();
@@ -17,7 +17,6 @@ public class BankTest {
             }
             long endTime = System.currentTimeMillis();
             System.out.println("Time: " + (endTime - startTime));
-        }
-
+        //}
     }
 }

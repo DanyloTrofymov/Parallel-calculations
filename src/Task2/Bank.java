@@ -17,16 +17,16 @@ class Bank {
         accounts[from] -= amount;
         accounts[to] += amount;
         ntransacts++;
-        //if (ntransacts % NTEST == 0)
-            //test();
+        if (ntransacts % NTEST == 0)
+            test();
     }
 
     public void test() {
         int sum = 0;
         for (int i = 0; i < accounts.length; i++)
             sum += accounts[i];
-        System.out.println("Transactions:" + ntransacts
-                + " Sum: " + sum);
+        //System.out.println("Transactions:" + ntransacts
+        //        + " Sum: " + sum);
     }
 
     public int size() {
