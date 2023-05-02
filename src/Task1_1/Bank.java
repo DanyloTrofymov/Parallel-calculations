@@ -25,8 +25,8 @@ class Bank {
         int sum = 0;
         for (int i = 0; i < accounts.length; i++)
             sum += accounts[i];
-        System.out.println("Transactions:" + ntransacts
-                + " Sum: " + sum);
+        //System.out.println("Transactions:" + ntransacts
+        //        + " Sum: " + sum);
     }
 
     public int size() {

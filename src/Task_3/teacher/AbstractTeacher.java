@@ -29,10 +29,10 @@ public abstract class AbstractTeacher extends Thread{
         while (week <= WEEKS) {
             int[] grades = new int[gradeJournal.studentsCount()];
             for (int i = 0; i < gradeJournal.studentsCount(); i++) {
-                int grade = (int) (Math.random() * MAX_GRADE);
+                int grade = (int) (Math.random() * (MAX_GRADE-10)) + 10;
                 grades[i] = grade;
             }
-            gradeJournal.addGrades(grades, week - 1, this);
+            gradeJournal.addGrades(grades, week - 1);
             System.out.println(name + " "  + surname + " has graded week " + week);
             week++;
             try {

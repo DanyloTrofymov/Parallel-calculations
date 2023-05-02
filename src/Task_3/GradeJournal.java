@@ -5,25 +5,22 @@ import Task_3.teacher.AbstractTeacher;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class GradeJournal {
-    private int[][][] grades;
+    private int[][] grades;
     private Group group;
     private final ReentrantLock lock = new ReentrantLock();
 
-    public GradeJournal(Group group, int weeks, int teachersCount) {
+    public GradeJournal(Group group, int weeks) {
         this.group = group;
-        grades = new int[studentsCount()][weeks][teachersCount];
+        grades = new int[studentsCount()][weeks];
     }
 
-    public void addGrades(int[] gradesToAdd, int week, AbstractTeacher teacher) {
-        lock.lock(); // заблокувати доступ до журналу
-        try {
+    public void addGrades(int[] gradesToAdd, int week) {
             int numStudents = studentsCount();
             for(int i = 0; i < numStudents; i++) {
-                grades[i][week][teacher.getTeacherId()] = gradesToAdd[i];
+                synchronized (grades[i]) {
+                    grades[i][week] = gradesToAdd[i];
+                }
             }
-        } finally {
-            lock.unlock(); // розблокувати доступ до журналу
-        }
     }
 
     public int studentsCount(){
@@ -35,15 +32,11 @@ public class GradeJournal {
         try {
             int numStudents = studentsCount();
             int numWeeks = grades[0].length;
-            int numTeachers = grades[0][0].length;
             for (int i = 0; i < numStudents; i++) {
-                System.out.print("Student " + i + ": ");
+                System.out.print("Student " + i + ":\t");
                 for (int j = 0; j < numWeeks; j++) {
                     System.out.print("Week " + (j + 1) + ": ");
-                    for (int k = 0; k < numTeachers; k++) {
-                        System.out.print(grades[i][j][k] + " ");
-                    }
-                    System.out.print(" | ");
+                        System.out.print(grades[i][j] + " \t");
                 }
                 System.out.println();
             }

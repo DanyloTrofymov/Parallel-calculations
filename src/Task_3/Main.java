@@ -7,10 +7,7 @@ import Task_3.teacher.Lecturer;
 import java.util.List;
 
 public class Main {
-    private static final int ASSISTANTS = 3;
     public static final int WEEKS = 18;
-    private static final int GROUPS = 3;
-    private static final int LECTURERS = 1;
     private static final int STUDENTS = 30;
 
     public static void main(String[] args) {
@@ -19,7 +16,7 @@ public class Main {
             students[j] = new Student("Student", String.valueOf(j), j);
         }
         Group group = new Group("Group 1", students);
-        GradeJournal gradeJournal = new GradeJournal(group, WEEKS, ASSISTANTS + LECTURERS);
+        GradeJournal gradeJournal = new GradeJournal(group, WEEKS);
         AbstractTeacher lecturer1 = new Lecturer("Lecturer", "0", gradeJournal);
         AbstractTeacher assistant1 = new Assistant("Assistant", "1", gradeJournal);
         AbstractTeacher assistant2 = new Assistant("Assistant", "2", gradeJournal);

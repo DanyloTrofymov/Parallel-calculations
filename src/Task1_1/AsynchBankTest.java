@@ -8,7 +8,7 @@ public class AsynchBankTest {
     public static final int INITIAL_BALANCE = 10000;
 
     public static void main(String[] args) {
-        for (int j = 0; j < 15; j++) {
+        //for (int j = 0; j < 15; j++) {
             long startTime = System.currentTimeMillis();
             Bank b = new Bank(NACCOUNTS, INITIAL_BALANCE);
             List<TransferThread> threads = new ArrayList<>();
@@ -28,7 +28,7 @@ public class AsynchBankTest {
             });
             long endTime = System.currentTimeMillis();
             System.out.println("Time: "+ (endTime - startTime));
-        }
+        //}
 
 
     }
