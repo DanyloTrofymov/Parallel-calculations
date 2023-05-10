@@ -40,7 +40,7 @@ public class MultiChannelSystem extends Thread {
                     totalFailedCustomers++;
                 } else {
                     queue.put(customer);
-                    Future<Customer> future  = executorService.submit(new ServiceChannel(queue, customer));
+                    executorService.submit(new ServiceChannel(queue, customer));
                     totalServedCustomers++;
                     totalServiceTime += customer.getServiceTime();
                 }
