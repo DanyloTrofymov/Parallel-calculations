@@ -1,7 +1,5 @@
 package Task2;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.*;
 
 import static java.util.concurrent.Executors.newFixedThreadPool;
