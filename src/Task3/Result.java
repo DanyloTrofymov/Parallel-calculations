@@ -32,8 +32,8 @@ public class Result {
                 Total Served Customers: %d
                 Average Service Time: %d
                 Average Queue Length: %f
-                Failure Probability: %f
-                """.formatted(totalCustomers, totalFailedCustomers, totalServedCustomers, averageServiceTime, averageQueueLength, failureRate);
+                Failure Probability: %.2f%%
+                """.formatted(totalCustomers, totalFailedCustomers, totalServedCustomers, averageServiceTime, averageQueueLength, failureRate*100);
         return result;
     }
 }

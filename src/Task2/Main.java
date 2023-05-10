@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Main {
-    private static final int SYSTEMS = 10;
+    private static final int SYSTEMS = 100;
 
     public static void main(String[] args){
         ExecutorService executorService = Executors.newFixedThreadPool(SYSTEMS);
@@ -54,8 +54,8 @@ public class Main {
                 Total Served Customers: %f
                 Average Service Time: %f
                 Average Queue Length: %f
-                Failure Probability: %f
-                """.formatted(totalCustomers, totalFailedCustomers, totalServedCustomers, averageServiceTime, averageQueueLength, failureRate);
+                Failure Probability: %.2f%%
+                """.formatted(totalCustomers, totalFailedCustomers, totalServedCustomers, averageServiceTime, averageQueueLength, failureRate*100);
         System.out.println(result);
     }
 }
