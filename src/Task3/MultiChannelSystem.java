@@ -21,7 +21,6 @@ public class MultiChannelSystem extends Thread {
     }
     @Override
     public void run() {
-        int totalQueuedCustomers = 0;
         int totalFailedCustomers = 0;
         int totalServedCustomers = 0;
         int totalServiceTime = 0;
