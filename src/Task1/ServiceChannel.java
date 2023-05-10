@@ -1,3 +1,5 @@
+package Task1;
+
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 
