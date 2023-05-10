@@ -34,7 +34,7 @@ public class MultiChannelSystem {
                 } else {
                     queue.put(customer);
                     executorService.submit(new ServiceChannel(queue, customer));
-                    totalQueuedCustomers++;
+                    totalServedCustomers++;
                     totalServiceTime += customer.getServiceTime();
                 }
                 Thread.sleep(getRandomNumberInRange(ARRIVAL_TIME_MIN, ARRIVAL_TIME_MAX));
