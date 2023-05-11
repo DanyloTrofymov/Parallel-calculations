@@ -1,5 +1,4 @@
-package Task3;
-
+import java.util.HashMap;
 import java.util.concurrent.*;
 
 import static java.util.concurrent.Executors.newFixedThreadPool;
@@ -13,26 +12,24 @@ public class MultiChannelSystem extends Thread {
     private static final int SERVICE_TIME_MAX = 1500;
     private static final int ARRIVAL_TIME_MIN = 50;
     private static final int ARRIVAL_TIME_MAX = 150;
-    private Result result = new Result();
+    private int totalFailedCustomers = 0;
+    private int totalServedCustomers = 0;
+    private int totalServiceTime = 0;
+    private HashMap<Integer, Integer> totalQueueLength = new HashMap<>();
+    BlockingQueue<Customer> queue = new ArrayBlockingQueue<>(QUEUE_SIZE);
     public MultiChannelSystem(){
         this.id = ++idCounter;
     }
     @Override
     public void run() {
-        int totalFailedCustomers = 0;
-        int totalServedCustomers = 0;
-        int totalServiceTime = 0;
-        int totalQueueLength = 0;
+
         try (ExecutorService executorService = newFixedThreadPool(SERVICE_CHANNELS)) {
-            BlockingQueue<Customer> queue = new ArrayBlockingQueue<>(QUEUE_SIZE);
+
             int i = 0;
             while (true){
                 Customer customer = new Customer(i + 1, getRandomNumberInRange(SERVICE_TIME_MIN, SERVICE_TIME_MAX));
 
-                int queueLength = queue.size();
-                totalQueueLength += queueLength;
-
-                if (queueLength == QUEUE_SIZE) {
+                if (queue.size() == QUEUE_SIZE) {
                     //System.out.println("Customer " + customer.getId() + " has left the queue due to it being full");
                     totalFailedCustomers++;
                 } else {
@@ -42,7 +39,6 @@ public class MultiChannelSystem extends Thread {
                     totalServiceTime += customer.getServiceTime();
                 }
 
-                result = new Result(totalServedCustomers + totalFailedCustomers, totalFailedCustomers, totalServedCustomers, totalServiceTime, totalQueueLength);
                 Thread.sleep(getRandomNumberInRange(ARRIVAL_TIME_MIN, ARRIVAL_TIME_MAX));
             }
         } catch (InterruptedException e) {
@@ -55,7 +51,8 @@ public class MultiChannelSystem extends Thread {
     }
 
     public Result getResult() {
-        return result;
+        totalQueueLength.put(queue.size(), totalQueueLength.getOrDefault(queue.size(), 0) + 1);
+        return new Result(totalServedCustomers + totalFailedCustomers, totalFailedCustomers, totalServedCustomers, totalServiceTime, totalQueueLength);
     }
 
     public int getSystemId() {

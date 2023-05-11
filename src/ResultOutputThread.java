@@ -1,7 +1,5 @@
-package Task3;
-
 public class ResultOutputThread extends Thread {
-    private MultiChannelSystem system;
+    private final MultiChannelSystem system;
 
     public ResultOutputThread(MultiChannelSystem system) {
         this.system = system;
@@ -11,7 +9,7 @@ public class ResultOutputThread extends Thread {
     public void run() {
         while (true) {
             try {
-                Thread.sleep(5000); // output results every 5 seconds
+                Thread.sleep(100); // output results every 0.5 seconds
                 System.out.println("SYSTEM " + system.getSystemId() + ":\n" + system.getResult().toString());
             } catch (InterruptedException e) {
                 e.printStackTrace();

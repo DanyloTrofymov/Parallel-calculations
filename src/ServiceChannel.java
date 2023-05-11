@@ -1,5 +1,3 @@
-package Task1;
-
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 
@@ -17,7 +15,7 @@ public class ServiceChannel implements Callable<Customer> {
         try {
             queue.take();
             Thread.sleep(customer.getServiceTime());
-            System.out.println("Customer " + customer.getId() + " has been served");
+            //System.out.println("Customer " + customer.getId() + " has been served");
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         } finally {

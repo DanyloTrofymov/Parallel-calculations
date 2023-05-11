@@ -1,5 +1,3 @@
-package Task1;
-
 public class Customer {
     private final int id;
     private final int serviceTime;
