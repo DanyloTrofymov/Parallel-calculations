@@ -1,6 +1,8 @@
 import mpi.*;
 
-public class BlockingMultiplication {
+import java.util.ArrayList;
+
+public class NonblockingMultiplication {
 
 
     public static void main(String[] args) {
@@ -35,17 +37,25 @@ public class BlockingMultiplication {
 
             for (int i = 1; i < size; i++) {
                 rows[0] = (i <= extraRows) ? rowsPerProcess + 1 : rowsPerProcess;
-                MPI.COMM_WORLD.Send(offset, 0, 1, MPI.INT, i, 0);
-                MPI.COMM_WORLD.Send(rows, 0, 1, MPI.INT, i, 0);
-                MPI.COMM_WORLD.Send(matrixA, offset[0], rows[0], MPI.OBJECT, i, 0);
-                MPI.COMM_WORLD.Send(matrixB, 0, colsA, MPI.OBJECT, i, 0);
+                Request request1 = MPI.COMM_WORLD.Isend(offset, 0, 1, MPI.INT, i, 0);
+                Request request2 = MPI.COMM_WORLD.Isend(rows, 0, 1, MPI.INT, i,  1);
+                MPI.COMM_WORLD.Isend(matrixA, offset[0], rows[0], MPI.OBJECT, i, 2);
+                MPI.COMM_WORLD.Isend(matrixB, 0, colsA, MPI.OBJECT, i,  3);
                 offset[0] += rows[0];
+                request1.Wait();
+                request2.Wait();
             }
+            ArrayList<Request> requests = new ArrayList<>();
             for (int i = 1; i < size; i++) {
-                MPI.COMM_WORLD.Recv(offset, 0, 1, MPI.INT, i, 1);
-                MPI.COMM_WORLD.Recv(rows, 0, 1, MPI.INT, i, 1);
-                MPI.COMM_WORLD.Recv(matrixC, offset[0], rows[0], MPI.OBJECT, i, 1);
+                Request request1 = MPI.COMM_WORLD.Irecv(offset, 0, 1, MPI.INT, i, 4);
+                Request request2 = MPI.COMM_WORLD.Irecv(rows, 0, 1, MPI.INT, i, 5);
+                request1.Wait();
+                request2.Wait();
+                requests.add(MPI.COMM_WORLD.Irecv(matrixC, offset[0], rows[0], MPI.OBJECT, i, 6));
 
+            }
+            for (Request request : requests) {
+                request.Wait();
             }
             long stopTime = System.currentTimeMillis();
             System.out.println("Time: " + (stopTime - startTime) + "ms");
@@ -57,10 +67,17 @@ public class BlockingMultiplication {
             }
 
         } else {
-            MPI.COMM_WORLD.Recv(offset, 0, 1, MPI.INT, 0, 0);
-            MPI.COMM_WORLD.Recv(rows, 0, 1, MPI.INT, 0, 0);
-            MPI.COMM_WORLD.Recv(matrixA, 0, rows[0], MPI.OBJECT, 0, 0);
-            MPI.COMM_WORLD.Recv(matrixB, 0, colsA, MPI.OBJECT, 0, 0);
+
+            Request request1 = MPI.COMM_WORLD.Irecv(offset, 0, 1, MPI.INT, 0, 0);
+            Request request2 = MPI.COMM_WORLD.Irecv(rows, 0, 1, MPI.INT, 0, 1);
+            request1.Wait();
+            request2.Wait();
+            MPI.COMM_WORLD.Isend(offset, 0, 1, MPI.INT, 0, 4);
+            MPI.COMM_WORLD.Isend(rows, 0, 1, MPI.INT, 0, 5);
+            Request request3 = MPI.COMM_WORLD.Irecv(matrixA, 0, rows[0], MPI.OBJECT, 0, 2);
+            Request request4 = MPI.COMM_WORLD.Irecv(matrixB, 0, colsA, MPI.OBJECT, 0, 3);
+            request3.Wait();
+            request4.Wait();
 
             for (int k = 0; k < colsA; k++) {
                 for (int i = 0; i < rows[0]; i++) {
@@ -71,9 +88,7 @@ public class BlockingMultiplication {
                 }
             }
 
-            MPI.COMM_WORLD.Send(offset, 0, 1, MPI.INT, 0, 1);
-            MPI.COMM_WORLD.Send(rows, 0, 1, MPI.INT, 0, 1);
-            MPI.COMM_WORLD.Send(matrixC, 0, rows[0], MPI.OBJECT, 0, 1);
+            MPI.COMM_WORLD.Isend(matrixC, 0, rows[0], MPI.OBJECT, 0, 6);
         }
         MPI.Finalize();
     }
