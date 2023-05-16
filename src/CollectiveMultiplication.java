@@ -2,9 +2,9 @@ import mpi.*;
 
 public class CollectiveMultiplication {
     public static void main(String[] args) {
-        int rowsA = 1500;
-        int colsA = 1500;
-        int colsB = 1500;
+        int rowsA = 1000;
+        int colsA = 1000;
+        int colsB = 1000;
         long startTime = 0;
 
         Generator.generateMatrix(rowsA, colsA, MatrixType.TRIANGLE, 1, "matrixA.txt");
@@ -30,8 +30,6 @@ public class CollectiveMultiplication {
             startTime = System.currentTimeMillis();
         }
 
-        MPI.COMM_WORLD.Bcast(matrixB, 0, colsA, MPI.OBJECT, 0); // Broadcast matrixB to all processes
-
         int rowsPerProcess = rowsA / size;
         int extraRows = rowsA % size;
         int[] sendcounts = new int[size];
@@ -42,7 +40,7 @@ public class CollectiveMultiplication {
             displs[i] = (i > 0) ? displs[i - 1] + sendcounts[i - 1] : 0;
         }
 
-        int[][] rowBuffer = new int[rowsPerProcess][rowsA];
+        int[][] rowBuffer = new int[sendcounts[rank]][rowsA];
         MPI.COMM_WORLD.Scatterv(matrixA, 0, sendcounts, displs, MPI.OBJECT, rowBuffer, 0, sendcounts[rank], MPI.OBJECT, 0); // Scatter matrixA
 
         MPI.COMM_WORLD.Bcast(matrixB, 0, colsA, MPI.OBJECT, 0); // Broadcast matrixB to all processes
@@ -62,17 +60,15 @@ public class CollectiveMultiplication {
         if (rank == 0) {
             long endTime = System.currentTimeMillis();
 
-            /*for (int i = 0; i < rowsA; i++) {
+            for (int i = 0; i < rowsA; i++) {
                 for (int j = 0; j < colsB; j++) {
                     System.out.print(matrixC[i][j] + " ");
                 }
                 System.out.println();
             }
-            System.out.println("Time: " + (endTime - startTime) + " ms");*/
-            System.out.println(endTime - startTime);
+            System.out.println("Time: " + (endTime - startTime) + " ms");
         }
 
         MPI.Finalize();
     }
 }
-
