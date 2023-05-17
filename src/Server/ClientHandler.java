@@ -20,6 +20,8 @@ class ClientHandler implements Runnable {
         try {
             // Read matrix data from the client
             ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
+            String matrixDataJson = input.readLine();
+            System.out.println("Received matrix data from client: " + matrixDataJson);
             byte[] modeBytes = (byte[]) input.readObject();
             String mode = new String(modeBytes);
 

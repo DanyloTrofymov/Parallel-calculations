@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Matrix Multiplication</title>
+    <script src="app.js"></script>
+</head>
+
+<body>
+    <h1>Matrix Multiplication</h1>
+
+    <form>
+        <input type="radio" name="mode" value="client" checked> Client
+        <input type="radio" name="mode" value="server"> Server
+
+        <br><br>
+
+        <input type="file" id="matrixAFile" accept=".txt">
+        <label for="matrixAFile">Matrix A</label>
+        <br>
+        <input type="file" id="matrixBFile" accept=".txt">
+        <label for="matrixBFile">Matrix B</label>
+
+        <br><br>
+
+        <button type="button" onclick="calculate()">Calculate</button>
+    </form>
+
+    <h2 id="info">Waiting for data</h2>
+    <button type="button" id="button" onclick="downloadResult()" disabled>Download Result</button>
+</body>
+
+</html>

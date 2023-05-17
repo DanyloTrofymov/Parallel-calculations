@@ -3,6 +3,7 @@
 ##############################
 out/
 .idea/
+.vscode/
 .idea_modules/
 *.iml
 *.ipr
