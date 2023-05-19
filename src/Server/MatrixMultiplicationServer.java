@@ -35,18 +35,9 @@ public class MatrixMultiplicationServer extends WebSocketServer {
         String mode = jsonObject.getString("mode");
         int[][] result = null;
         JSONObject jsonResponse = new JSONObject();
+        try{
         switch (mode) {
-            case "client" -> {
-                try{
-                    result = handleClient(jsonObject);
-                } catch (IllegalArgumentException e) {
-                    jsonResponse.put("status", 0);
-                    jsonResponse.put("message", e.getMessage());
-                    conn.send(jsonResponse.toString());
-                    return;
-                }
-            }
-
+            case "client" -> result = handleClient(jsonObject);
             case "server" -> result = handleServer();
             default -> System.out.println("Invalid mode");
         }
@@ -54,6 +45,11 @@ public class MatrixMultiplicationServer extends WebSocketServer {
         jsonResponse.put("status", 1);
         jsonResponse.put("matrix", convertMatrixToJSON(result));
         conn.send(jsonResponse.toString());
+        } catch (Exception e) {
+            jsonResponse.put("status", 0);
+            jsonResponse.put("message", e.getMessage());
+            conn.send(jsonResponse.toString());
+        }
     }
 
     @Override
