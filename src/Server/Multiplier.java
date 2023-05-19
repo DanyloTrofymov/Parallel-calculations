@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Multiplier {
-    public static int[][] stripedMultiply(int[][] matrixA, int[][] matrixB, int threadsCount) {
+    public static int[][] stripedMultiply(int[][] matrixA, int[][] matrixB, int threadsCount) throws IllegalArgumentException {
         int matrixARows = matrixA.length;
         int matrixACols = matrixA[0].length;
         int matrixBRows = matrixB.length;

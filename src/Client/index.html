@@ -10,17 +10,17 @@
     <h1>Matrix Multiplication</h1>
 
     <form>
-        <input type="radio" name="mode" value="client" checked> Client
-        <input type="radio" name="mode" value="server"> Server
+        <input type="radio" name="mode" value="client" checked onclick="showFileInputs(true)"> Client
+        <input type="radio" name="mode" value="server" onclick="showFileInputs(false)"> Server
 
         <br><br>
-
-        <input type="file" id="matrixAFile" accept=".txt">
-        <label for="matrixAFile">Matrix A</label>
-        <br>
-        <input type="file" id="matrixBFile" accept=".txt">
-        <label for="matrixBFile">Matrix B</label>
-
+        <div id="matrixFilesContainer">
+            <input type="file" id="matrixAFile" accept=".txt">
+            <label for="matrixAFile">Matrix A</label>
+            <br>
+            <input type="file" id="matrixBFile" accept=".txt">
+            <label for="matrixBFile">Matrix B</label>
+        </div>
         <br><br>
 
         <button type="button" onclick="calculate()">Calculate</button>
@@ -28,6 +28,7 @@
 
     <h2 id="info">Waiting for data</h2>
     <button type="button" id="button" onclick="downloadResult()" disabled>Download Result</button>
+    <p id="time">Time taken: ...</p>
 </body>
 
 </html>

@@ -8,12 +8,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import utils.Reader;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 
 public class MatrixMultiplicationServer extends WebSocketServer {
+    int[][] matrixAServer = null;
+    int[][] matrixBServer = null;
     public MatrixMultiplicationServer(InetSocketAddress address) {
         super(address);
     }
@@ -35,13 +34,26 @@ public class MatrixMultiplicationServer extends WebSocketServer {
 
         String mode = jsonObject.getString("mode");
         int[][] result = null;
+        JSONObject jsonResponse = new JSONObject();
         switch (mode) {
-            case "client" -> result = handleClient(jsonObject);
+            case "client" -> {
+                try{
+                    result = handleClient(jsonObject);
+                } catch (IllegalArgumentException e) {
+                    jsonResponse.put("status", 0);
+                    jsonResponse.put("message", e.getMessage());
+                    conn.send(jsonResponse.toString());
+                    return;
+                }
+            }
+
             case "server" -> result = handleServer();
             default -> System.out.println("Invalid mode");
         }
 
-        conn.send(convertMatrixToJSON(result));
+        jsonResponse.put("status", 1);
+        jsonResponse.put("matrix", convertMatrixToJSON(result));
+        conn.send(jsonResponse.toString());
     }
 
     @Override
@@ -51,16 +63,18 @@ public class MatrixMultiplicationServer extends WebSocketServer {
 
     @Override
     public void onStart() {
+        matrixAServer = Reader.readMatrix("1000.txt");
+        matrixBServer = Reader.readMatrix("1000.txt");
         System.out.println("WebSocket server started successfully!");
     }
     public static void main(String[] args) {
-        int portNumber = 3000;
+        int portNumber = 5000;
         MatrixMultiplicationServer server = new MatrixMultiplicationServer(new InetSocketAddress(portNumber));
         server.start();
         System.out.println("Server started on port " + portNumber);
     }
 
-    private int[][]  handleClient(JSONObject jsonObject) {
+    private int[][]  handleClient(JSONObject jsonObject) throws IllegalArgumentException {
         // Read matrix data from the jsonObject
         JSONArray matrixAArray = jsonObject.getJSONArray("matrixA");
         JSONArray matrixBArray = jsonObject.getJSONArray("matrixB");
@@ -71,21 +85,18 @@ public class MatrixMultiplicationServer extends WebSocketServer {
 
         // Perform matrix multiplication using the Server.Multiplier class
         int threadsCount = Runtime.getRuntime().availableProcessors();
-
         return Multiplier.stripedMultiply(matrixA, matrixB, threadsCount);
     }
 
     private int[][]  handleServer() {
         // Convert byte arrays to matrices
-        int[][] matrixA = Reader.readMatrix("matrixA.txt");
-        int[][] matrixB = Reader.readMatrix("matrixB.txt");
+
 
         // Perform matrix multiplication using the Server.Multiplier class
         int threadsCount = Runtime.getRuntime().availableProcessors();
-        int[][] result = Multiplier.stripedMultiply(matrixA, matrixB, threadsCount);
 
         // Send the result back to the client
-        return Multiplier.stripedMultiply(matrixA, matrixB, threadsCount);
+        return Multiplier.stripedMultiply(matrixAServer, matrixBServer, threadsCount);
     }
 
     private int[][] convertJSONArrayToMatrix(JSONArray jsonArray) {
@@ -102,7 +113,7 @@ public class MatrixMultiplicationServer extends WebSocketServer {
 
         return matrix;
     }
-    private String convertMatrixToJSON(int[][] matrix) throws JSONException {
+    private String convertMatrixToJSON(int[][] matrix) {
         JSONArray jsonArray = new JSONArray();
 
         for (int[] row : matrix) {
@@ -112,7 +123,6 @@ public class MatrixMultiplicationServer extends WebSocketServer {
             }
             jsonArray.put(rowArray);
         }
-
         return jsonArray.toString();
     }
 

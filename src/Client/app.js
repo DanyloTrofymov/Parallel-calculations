@@ -1,13 +1,13 @@
-var info = document.getElementById('info');
-var button = document.getElementById('calculate');
+var downloadLink;
 // Function to send matrix data to the server
 function sendMatrixData(mode, matrixA, matrixB) {
     // Create a WebSocket connection to the server
-    const socket = new WebSocket('ws://localhost:3000');
-
+    const socket = new WebSocket('ws://localhost:5000');
+    var startTimer;
+    var endTimer;
     // Handle the connection open event
     socket.onopen = () => {
-        console.log('Connected to server');
+        startTimer = new Date();
 
         // Create an object to hold the matrix data
         const matrixData = {
@@ -16,42 +16,35 @@ function sendMatrixData(mode, matrixA, matrixB) {
             matrixB: matrixB
         };
 
-        // Send the byte array to the server
         socket.send(JSON.stringify(matrixData));
     };
 
     // Handle the message event
     socket.onmessage = (event) => {
-        // Parse the received byte array as a JSON string
+        endTimer = new Date();
         const jsonString = event.data;
 
-        // Convert the JSON string back to an object
         const result = JSON.parse(jsonString);
-        const resultString = result.map(row => row.join(' ')).join('\n');
+        if (result.status == 1) {
+            sendResult(JSON.parse(result.matrix));
+            changeTime('Time taken: ' + (endTimer - startTimer) + ' ms')
 
-        console.log('Received result:', result);
+        } else if (result.status == 0) {
+            changeInfo("Error: " + result.message);
+        }
 
-        // Store the result as a file and enable downloading
-        const resultBlob = new Blob([resultString], { type: 'text/plain' });
-        const resultURL = URL.createObjectURL(resultBlob);
-        const downloadLink = document.createElement('a');
-        downloadLink.href = resultURL;
-        downloadLink.download = 'matrix_result.txt';
-        document.body.appendChild(downloadLink);
-        changeButtonDisabled(false);
-        changeInfo("Done!");
+        // Handle the connection close event
+        socket.onclose = () => {
+            changeInfo("Disconnected from server");
+            console.log('Disconnected from server');
+        };
     };
-
-    // Handle the connection close event
-    socket.onclose = () => {
-        changeInfo("Disconnected from server");
-        console.log('Disconnected from server');
-    };
-};
+}
 
 function calculate() {
     const mode = document.querySelector('input[name="mode"]:checked').value;
     changeInfo("Calculating...");
+    changeTime('Time taken: ...')
     changeButtonDisabled(true);
     if (mode === 'client') {
         const matrixAFile = document.getElementById('matrixAFile').files[0];
@@ -66,13 +59,11 @@ function calculate() {
 
                 matrixBReader.onload = function () {
                     const matrixB = parseMatrixData(matrixBReader.result);
-
                     sendMatrixData(mode, matrixA, matrixB);
-                };
 
+                };
                 matrixBReader.readAsText(matrixBFile);
             };
-
             matrixAReader.readAsText(matrixAFile);
         } else {
             alert('Please select both matrix files');
@@ -100,12 +91,39 @@ function downloadResult() {
     const downloadLink = document.querySelector('a[download]');
     downloadLink.click();
 }
-
+function changeTime(string) {
+    const time = document.getElementById('time');
+    time.textContent = string;
+}
 function changeInfo(string) {
     const info = document.getElementById('info');
     info.textContent = string;
 }
 function changeButtonDisabled(state) {
     const button = document.getElementById('button');
-    button.disabled = false;
+    button.disabled = state;
+}
+
+function showFileInputs(state) {
+    if (state) {
+        document.getElementById('matrixFilesContainer').style.display = 'block';
+    } else {
+        document.getElementById('matrixFilesContainer').style.display = 'none';
+    }
+}
+
+function sendResult(result) {
+    const resultString = result.map(row => row.join(' ')).join('\n');
+    // Store the result as a file and enable downloading
+    const resultBlob = new Blob([resultString], { type: 'text/plain' });
+    const resultURL = URL.createObjectURL(resultBlob);
+    if (downloadLink) {
+        document.body.removeChild(downloadLink);
+    }
+    downloadLink = document.createElement('a');
+    downloadLink.href = resultURL;
+    downloadLink.download = 'matrix_result.txt';
+    document.body.appendChild(downloadLink);
+    changeButtonDisabled(false);
+    changeInfo("Done!");
 }
