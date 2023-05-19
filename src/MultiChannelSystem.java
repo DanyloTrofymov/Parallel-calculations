@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.concurrent.Executors.newFixedThreadPool;
 
@@ -12,9 +13,9 @@ public class MultiChannelSystem extends Thread {
     private static final int SERVICE_TIME_MAX = 1500;
     private static final int ARRIVAL_TIME_MIN = 50;
     private static final int ARRIVAL_TIME_MAX = 150;
-    private int totalFailedCustomers = 0;
-    private int totalServedCustomers = 0;
-    private int totalServiceTime = 0;
+    private AtomicInteger totalFailedCustomers = new AtomicInteger(0);
+    private AtomicInteger totalServedCustomers = new AtomicInteger(0);
+    private AtomicInteger totalServiceTime = new AtomicInteger(0);
     private HashMap<Integer, Integer> totalQueueLength = new HashMap<>();
     BlockingQueue<Customer> queue = new ArrayBlockingQueue<>(QUEUE_SIZE);
     public MultiChannelSystem(){
@@ -31,12 +32,12 @@ public class MultiChannelSystem extends Thread {
 
                 if (queue.size() == QUEUE_SIZE) {
                     //System.out.println("Customer " + customer.getId() + " has left the queue due to it being full");
-                    totalFailedCustomers++;
+                    totalFailedCustomers.incrementAndGet();
                 } else {
                     queue.put(customer);
                     executorService.submit(new ServiceChannel(queue, customer));
-                    totalServedCustomers++;
-                    totalServiceTime += customer.getServiceTime();
+                    totalServedCustomers.incrementAndGet();
+                    totalServiceTime.addAndGet(customer.getServiceTime());
                 }
 
                 Thread.sleep(getRandomNumberInRange(ARRIVAL_TIME_MIN, ARRIVAL_TIME_MAX));
@@ -52,7 +53,7 @@ public class MultiChannelSystem extends Thread {
 
     public Result getResult() {
         totalQueueLength.put(queue.size(), totalQueueLength.getOrDefault(queue.size(), 0) + 1);
-        return new Result(totalServedCustomers + totalFailedCustomers, totalFailedCustomers, totalServedCustomers, totalServiceTime, totalQueueLength);
+        return new Result(totalServedCustomers.get() + totalFailedCustomers.get(), totalFailedCustomers.get(), totalServedCustomers.get(), totalServiceTime.get(), totalQueueLength);
     }
 
     public int getSystemId() {
