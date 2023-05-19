@@ -55,7 +55,7 @@ public class CollectiveMultiplication {
             }
         }
 
-        MPI.COMM_WORLD.Gatherv(localMatrixC, 0, sendcounts[rank], MPI.OBJECT, matrixC, 0, sendcounts, displs, MPI.OBJECT, 0); // Gather localMatrixC
+        MPI.COMM_WORLD.Allgatherv(localMatrixC, 0, sendcounts[rank], MPI.OBJECT, matrixC, 0, sendcounts, displs, MPI.OBJECT); // Gather localMatrixC
 
         if (rank == 0) {
             long endTime = System.currentTimeMillis();
