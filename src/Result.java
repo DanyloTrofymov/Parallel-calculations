@@ -1,22 +1,23 @@
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Result {
     public int totalCustomers;
     public int totalFailedCustomers;
     public int totalServedCustomers;
     public int averageServiceTime;
-    public HashMap<Integer, Integer> totalQueueLength;
+    public ConcurrentHashMap<Integer, Integer> totalQueueLength;
     public double failureRate;
     public Result(){
         this.totalCustomers = 0;
         this.totalFailedCustomers = 0;
         this.totalServedCustomers = 0;
         this.averageServiceTime = 0;
-        this.totalQueueLength = new HashMap<>();
+        this.totalQueueLength = new ConcurrentHashMap<>();
         this.failureRate = 0;
     }
-    public Result(int totalCustomers, int totalFailedCustomers, int totalServedCustomers, int totalServiceTime, HashMap<Integer, Integer> totalQueueLength){
+    public Result(int totalCustomers, int totalFailedCustomers, int totalServedCustomers, int totalServiceTime, ConcurrentHashMap<Integer, Integer> totalQueueLength){
         this.totalCustomers = totalCustomers;
         this.totalFailedCustomers = totalFailedCustomers;
         this.totalServedCustomers = totalServedCustomers;

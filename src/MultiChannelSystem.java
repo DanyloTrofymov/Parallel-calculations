@@ -16,7 +16,7 @@ public class MultiChannelSystem extends Thread {
     private AtomicInteger totalFailedCustomers = new AtomicInteger(0);
     private AtomicInteger totalServedCustomers = new AtomicInteger(0);
     private AtomicInteger totalServiceTime = new AtomicInteger(0);
-    private HashMap<Integer, Integer> totalQueueLength = new HashMap<>();
+    private ConcurrentHashMap<Integer, Integer> totalQueueLength = new ConcurrentHashMap<>();
     BlockingQueue<Customer> queue = new ArrayBlockingQueue<>(QUEUE_SIZE);
     public MultiChannelSystem(){
         this.id = ++idCounter;
