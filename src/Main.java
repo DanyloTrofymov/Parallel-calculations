@@ -16,8 +16,9 @@ public class Main {
 
         while (true) {
             try {
-                Thread.sleep(500); // output results every 0.5 seconds
+                Thread.sleep(5000); // output results every 0.5 seconds
                 Result averageResult = getAverageResult(resultThreads);
+                System.out.println("Average result for " + SYSTEMS + " systems:");
                 System.out.println(averageResult);
             } catch (InterruptedException e) {
                 e.printStackTrace();

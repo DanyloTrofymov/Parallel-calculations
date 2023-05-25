@@ -35,9 +35,9 @@ public class Result {
             count += entry.getValue();
         }
         String result = """
-                Total Customers: %d
-                Total Failed Customers: %d
-                Total Served Customers: %d
+                Customers: %d
+                Failed Customers: %d
+                Served Customers: %d
                 Average Service Time: %d
                 Average Queue Length: %f
                 Failure Probability: %.2f%%
