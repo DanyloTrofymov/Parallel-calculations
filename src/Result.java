@@ -17,11 +17,11 @@ public class Result {
         this.totalQueueLength = new ConcurrentHashMap<>();
         this.failureRate = 0;
     }
-    public Result(int totalCustomers, int totalFailedCustomers, int totalServedCustomers, int totalServiceTime, ConcurrentHashMap<Integer, Integer> totalQueueLength){
+    public Result(int totalCustomers, int totalFailedCustomers, int totalServedCustomers, int averageServiceTime, ConcurrentHashMap<Integer, Integer> totalQueueLength){
         this.totalCustomers = totalCustomers;
         this.totalFailedCustomers = totalFailedCustomers;
         this.totalServedCustomers = totalServedCustomers;
-        this.averageServiceTime = totalServiceTime / totalServedCustomers;
+        this.averageServiceTime = averageServiceTime;
         this.totalQueueLength = totalQueueLength;
         this.failureRate = (double) totalFailedCustomers / totalCustomers;
     }

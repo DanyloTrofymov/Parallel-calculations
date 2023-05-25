@@ -53,7 +53,7 @@ public class MultiChannelSystem extends Thread {
 
     public Result getResult() {
         totalQueueLength.put(queue.size(), totalQueueLength.getOrDefault(queue.size(), 0) + 1);
-        return new Result(totalServedCustomers.get() + totalFailedCustomers.get(), totalFailedCustomers.get(), totalServedCustomers.get(), totalServiceTime.get(), totalQueueLength);
+        return new Result(totalServedCustomers.get() + totalFailedCustomers.get(), totalFailedCustomers.get(), totalServedCustomers.get(), totalServiceTime.get() / totalServedCustomers.get(), totalQueueLength);
     }
 
     public int getSystemId() {
