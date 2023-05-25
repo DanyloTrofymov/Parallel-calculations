@@ -13,10 +13,10 @@ public class MultiChannelSystem extends Thread {
     private static final int SERVICE_TIME_MAX = 1500;
     private static final int ARRIVAL_TIME_MIN = 50;
     private static final int ARRIVAL_TIME_MAX = 150;
-    private AtomicInteger totalFailedCustomers = new AtomicInteger(0);
-    private AtomicInteger totalServedCustomers = new AtomicInteger(0);
-    private AtomicInteger totalServiceTime = new AtomicInteger(0);
-    private ConcurrentHashMap<Integer, Integer> totalQueueLength = new ConcurrentHashMap<>();
+    private final AtomicInteger totalFailedCustomers = new AtomicInteger(0);
+    private final AtomicInteger totalServedCustomers = new AtomicInteger(0);
+    private final AtomicInteger totalServiceTime = new AtomicInteger(0);
+    private final ConcurrentHashMap<Integer, Integer> totalQueueLength = new ConcurrentHashMap<>();
     BlockingQueue<Customer> queue = new ArrayBlockingQueue<>(QUEUE_SIZE);
     public MultiChannelSystem(){
         this.id = ++idCounter;
